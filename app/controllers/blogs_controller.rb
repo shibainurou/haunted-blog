@@ -46,6 +46,7 @@ class BlogsController < ApplicationController
 
   def set_blog
     @blog = Blog.find(params[:id])
+    @blog = Blog.where(secret: false).find(params[:id]) if current_user.nil? || @blog.user.id != current_user.id
   end
 
   def set_blog_owner
