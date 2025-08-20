@@ -45,8 +45,7 @@ class BlogsController < ApplicationController
   private
 
   def set_blog
-    @blog = Blog.find(params[:id])
-    @blog = Blog.published.find(params[:id]) if current_user.nil? || @blog.user.id != current_user.id
+    @blog = Blog.where(id: params[:id]).merge(Blog.published.or(Blog.where(user_id: current_user&.id))).first!
   end
 
   def set_blog_owner
