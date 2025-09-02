@@ -10,7 +10,8 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.where(id: params[:id]).merge(Blog.published.or(Blog.where(user_id: current_user&.id))).first!
+    # FROM BLOGS WHERE (SECREAT = FALSE OR USER_ID = ?) AND ID = ?
+    @blog = Blog.published.or(Blog.where(user_id: current_user&.id)).find(params[:id])
   end
 
   def new
